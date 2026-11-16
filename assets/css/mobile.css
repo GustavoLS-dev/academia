@@ -59,44 +59,67 @@
   /* a faixa de promoção some ao rolar: as sub-abas sobem junto */
   html.has-promo.scrolled { --promo-collapse: 38px; }
 
-  /* Rodapé no celular: só a linha final (as informações já estão na página Contato) */
-  html.m-pages .footer { padding-top: 0; }
-  html.m-pages .footer__grid { display: none; }
-  html.m-pages .footer__bottom { margin-top: 0; }
 
-  /* ---------- Abas fixas embaixo ---------- */
+  /* ---------- Barra de ações fixa embaixo (zona do polegar) ---------- */
   .mbar {
     position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); z-index: 95;
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; padding: 6px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 6px;
     border-radius: 22px;
     background: rgba(12, 12, 12, .86);
     -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%);
     border: 1px solid rgba(255,255,255,.12);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 12px 30px rgba(0,0,0,.6);
-    transition: transform .3s var(--ease);
+    transform: translateY(150%);
+    transition: transform .35s var(--ease);
   }
+  /* aparece depois do hero (lá já existem os botões principais) */
+  html.show-mbar .mbar, html.m-pages .mbar { transform: none; }
   html.typing .mbar, html.menu-open .mbar { transform: translateY(150%); }
   .mbar__btn {
     position: relative;
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
     min-height: 54px; border-radius: 16px;
-    font-size: 11px; font-weight: 600; color: var(--text-3);
+    font-size: 11.5px; font-weight: 600; color: var(--text-2);
     -webkit-tap-highlight-color: transparent;
     transition: color .2s, background-color .2s, transform .15s;
   }
-  .mbar__btn svg { width: 23px; height: 23px; transition: transform .25s var(--ease); }
-  .mbar__btn:active { transform: scale(.94); }
-  .mbar__btn[aria-current="page"] {
+  .mbar__btn svg { width: 23px; height: 23px; color: var(--accent); }
+  .mbar__btn:active { transform: scale(.94); background: rgba(255,255,255,.08); }
+  .mbar__btn--primary, .mbar__btn[aria-current="page"] {
     color: var(--accent-ink);
     background: linear-gradient(180deg, var(--accent-light), var(--accent));
     box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 6px 16px -6px rgba(231,179,76,.6);
   }
-  .mbar__btn[aria-current="page"] svg { transform: translateY(-1px) scale(1.05); }
+  .mbar__btn--primary svg, .mbar__btn[aria-current="page"] svg { color: var(--accent-ink); }
 
-  /* WhatsApp flutuante acima das abas */
-  .wa-float { width: 50px; height: 50px; right: 14px; bottom: calc(84px + env(safe-area-inset-bottom)); }
-  .wa-float svg { width: 26px; height: 26px; }
-  html.typing .wa-float, html.menu-open .wa-float { display: none; }
+  /* o WhatsApp já está na barra: some o botão flutuante (não cobre mais o conteúdo) */
+  .wa-float { display: none; }
+
+  /* ---------- Atalhos logo depois do hero ---------- */
+  .m-only { display: block; }
+
+  /* ---------- Quiz, IMC e Desafio recolhidos até tocar no botão ---------- */
+  .m-collapsed [data-collapsible] { display: none !important; }
+  .m-expand { margin-top: 14px; }
+  #desafio .m-expand { margin: 0 auto; max-width: 420px; display: flex; }
+  .m-collapsed.tool .tool__side { border-bottom: 0; }
+
+  /* ---------- Blocos mais compactos ---------- */
+  .about__body > p:not(.about__lead) { display: none; }      /* Sobre: fica só o resumo */
+  .map, .map iframe { min-height: 240px; }
+  .hours th, .hours td { padding: 7px 0; }
+  .info-block { padding: 18px; }
+  .channels { grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+  .channel { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px; }
+  .channel svg { width: 38px; height: 38px; padding: 9px; }
+  .channel span { font-size: 13px; }
+  .steps { gap: 16px; }
+  .steps__list { gap: 14px; }
+
+  /* ---------- Rodapé compacto (as informações já estão nas seções) ---------- */
+  .footer { padding-top: 0; }
+  .footer__grid { display: none; }
+  .footer__bottom { margin-top: 0; }
 
   /* ---------- Header: mais espaço para o conteúdo ---------- */
   .header.is-scrolled .promo { display: none; }

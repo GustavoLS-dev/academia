@@ -12,6 +12,7 @@
   const FEATURES = {
     promo: true,       // faixa de promoção no topo (texto fica no index.html, dentro de .promo)
     trialClass: true,  // botões e pergunta de "Aula experimental grátis"
+    mobilePages: false, // true = no celular o site vira "páginas" com abas (versão alternativa)
   };
 
   // Grade de aulas coletivas. 0 = domingo, 1 = segunda ... 6 = sábado
@@ -241,6 +242,7 @@
      No celular só a página ativa aparece; links internos (#secao) trocam de página.
      O botão "voltar" do navegador funciona normalmente.                         */
   function initPages() {
+    if (!FEATURES.mobilePages) return;
     const root = document.documentElement;
     const mq = window.matchMedia('(max-width: 720px)');
     const sections = $$('[data-page]');
@@ -350,6 +352,56 @@
     const apply = () => (mq.matches ? enable() : disable());
     mq.addEventListener('change', apply);
     apply();
+  }
+
+  /* ---------- Celular: Quiz, IMC e Desafio começam recolhidos ----------
+     Cada bloco [data-collapse] tem partes [data-collapsible] e um botão [data-expand]. */
+  function initCollapse() {
+    const mq = window.matchMedia('(max-width: 720px)');
+    const blocks = $$('[data-collapse]');
+    if (!blocks.length) return;
+
+    const expand = (block, focus) => {
+      block.classList.remove('m-collapsed');
+      const btn = $('[data-expand]', block);
+      if (btn) btn.hidden = true;
+      if (focus) {
+        const first = $('[data-collapsible] button, [data-collapsible] input, [data-collapsible] .quiz__question', block);
+        if (first) first.focus({ preventScroll: true });
+      }
+    };
+
+    blocks.forEach((block) => {
+      const btn = $('[data-expand]', block);
+      if (btn) btn.addEventListener('click', () => expand(block, true));
+    });
+
+    const apply = () => {
+      blocks.forEach((block) => {
+        const btn = $('[data-expand]', block);
+        if (mq.matches && !block.dataset.opened) {
+          block.classList.add('m-collapsed');
+          if (btn) btn.hidden = false;
+        } else {
+          block.classList.remove('m-collapsed');
+          if (btn) btn.hidden = true;
+        }
+      });
+    };
+    // depois de aberto, continua aberto (mesmo se girar a tela)
+    blocks.forEach((b) => { const btn = $('[data-expand]', b); if (btn) btn.addEventListener('click', () => { b.dataset.opened = '1'; }); });
+
+    // links (#quiz, #imc, #desafio…) abrem o bloco automaticamente
+    const openFromHash = () => {
+      const t = location.hash && document.getElementById(location.hash.slice(1));
+      const block = t && t.closest('[data-collapse]');
+      if (block) { block.dataset.opened = '1'; expand(block, false); }
+    };
+    window.addEventListener('hashchange', openFromHash);
+
+    mq.addEventListener('change', apply);
+    apply();
+    openFromHash();
   }
 
   /* ---------- Barra de ações do celular ---------- */
@@ -613,7 +665,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    [initFeatures, initPages, initMobileBar, initHeader, initMenu, initActiveNav, initStagger, initReveal, initStats, initProgress, initHeroFx,
+    [initFeatures, initPages, initCollapse, initMobileBar, initHeader, initMenu, initActiveNav, initStagger, initReveal, initStats, initProgress, initHeroFx,
       initTilt, initRipple, initStatus, initTodayHours,
       initSchedule, initBilling, initJoinLinks, initForm, initYear]
       .forEach((fn) => { try { fn(); } catch (err) { console.error(`[DNA FORTE] ${fn.name}`, err); } });

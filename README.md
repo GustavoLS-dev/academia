@@ -29,25 +29,22 @@ assets/img/           Logo e favicon
 
 ## Celular
 
-Até 720 px de largura o site funciona como um app, com **5 páginas** e abas fixas embaixo
-(`assets/css/mobile.css` + função `initPages` em `assets/js/main.js`). No computador continua uma página só.
+Até 720 px de largura (`assets/css/mobile.css`) o site é **uma página única e enxuta** (~15 telas):
 
-| Aba | Seções (`data-page`) |
-|---|---|
-| Início (`inicio`) | Hero, faixa de modalidades e atalhos |
-| Treinos (`treinos`) | Atividades + aulas por dia, Quiz/IMC, Desafio |
-| Planos (`planos`) | Planos, Depoimentos, chamada amarela |
-| Academia (`academia`) | Sobre, Estrutura, Equipe |
-| Contato (`contato`) | Horários e mapa, Dúvidas, Formulário, rodapé |
-
-- Para mudar uma seção de página, troque o atributo `data-page` dela no `index.html`.
-- **Sub-abas:** em Treinos (Aulas · Quiz · IMC · Desafio), Academia (Sobre · Estrutura · Equipe) e
-  Contato (Horários e mapa · Dúvidas · Fale conosco) aparece um assunto por vez. Cada bloco tem
-  `data-sub="Nome"` e `data-sub-order="1"`; para criar ou remover uma sub-aba, basta adicionar ou tirar esses atributos.
-  Assim nenhuma tela passa de cerca de 2,5 telas de altura.
-- Qualquer link `#secao` abre a página certa e rola até a seção; o "voltar" do celular funciona.
+- **Barra de ações fixa embaixo:** WhatsApp · Ligar · Rota · Aula grátis. Aparece depois do hero e
+  some enquanto o teclado está aberto. Links no fim do `index.html` (`<nav class="mbar">`).
+- **Atalhos "O que você procura?"** logo depois do hero.
+- **Quiz, IMC e Desafio começam recolhidos**, com botões "Fazer o quiz", "Calcular meu IMC" e
+  "Jogar agora" (atributos `data-collapse`, `data-collapsible` e `data-expand`). Links para eles abrem o bloco.
 - Atividades, Estrutura e Equipe viram carrosséis horizontais; "Aulas por dia" aparece antes dos cards.
-- As abas somem enquanto o teclado está aberto; a faixa de promoção some ao rolar.
+- Rodapé compacto, mapa mais baixo, contatos em grade 2×2.
+
+### Versão alternativa: "páginas" com abas
+
+O site também tem um modo em que o celular vira 5 páginas com abas (Início, Treinos, Planos, Academia,
+Contato) e sub-abas. Para ativar, em `assets/js/main.js` troque `mobilePages: false` por `true` e, no
+`index.html`, troque a `<nav class="mbar">` por abas com `data-tab="inicio|treinos|planos|academia|contato"`.
+As seções já têm `data-page` e `data-sub` marcados.
 
 ## Fotos reais
 

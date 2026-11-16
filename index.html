@@ -371,7 +371,7 @@
     </section>
 
     <!-- ============ DESAFIO (minijogo interativo) ============ -->
-    <section class="section game" data-page="treinos" id="desafio" data-sub="Desafio" data-sub-order="4" aria-labelledby="desafio-title">
+    <section class="section game" data-page="treinos" id="desafio" data-collapse data-sub="Desafio" data-sub-order="4" aria-labelledby="desafio-title">
       <div class="container">
         <header class="section-head section-head--center reveal">
           <p class="eyebrow">Desafio DNA FORTE</p>
@@ -379,7 +379,8 @@
           <p class="section-head__text">Clique em <strong>Treinar</strong> (ou toque no personagem) para fazer repetições. Cliques rápidos geram combo. A cada nível, um benefício da academia é liberado.</p>
         </header>
 
-        <div class="game__grid">
+        <button class="btn btn--primary btn--block m-expand" type="button" data-expand hidden>Jogar agora</button>
+        <div class="game__grid" data-collapsible>
           <!-- Palco -->
           <div class="stage reveal" data-game>
             <div class="stage__hud">
@@ -571,19 +572,20 @@
 
         <div class="tools">
           <!-- ===== QUIZ ===== -->
-          <div class="tool quiz reveal" id="quiz" data-sub="Quiz" data-sub-order="2" data-quiz>
+          <div class="tool quiz reveal" id="quiz" data-collapse data-sub="Quiz" data-sub-order="2" data-quiz>
             <aside class="tool__side">
               <span class="tool__icon"><svg aria-hidden="true"><use href="#i-target"/></svg></span>
               <h3 class="tool__title">Qual modalidade combina com você?</h3>
               <p class="tool__sub">4 perguntas rápidas · cerca de 30 segundos</p>
-              <ol class="steps-mini" data-q-steps>
+              <ol class="steps-mini" data-q-steps data-collapsible>
                 <li><span>1</span>Objetivo</li>
                 <li><span>2</span>Formato</li>
                 <li><span>3</span>Intensidade</li>
                 <li><span>4</span>Período</li>
               </ol>
+              <button class="btn btn--primary btn--block m-expand" type="button" data-expand hidden>Fazer o quiz</button>
             </aside>
-            <div class="tool__main">
+            <div class="tool__main" data-collapsible>
               <div class="quiz__progress" aria-hidden="true"><span data-q-bar></span></div>
               <div class="quiz__body" data-q-body aria-live="polite">
                 <noscript><p>Ative o JavaScript para fazer o quiz, ou fale com a gente pelo WhatsApp.</p></noscript>
@@ -592,13 +594,14 @@
           </div>
 
           <!-- ===== CALCULADORA DE IMC ===== -->
-          <div class="tool bmi reveal" id="imc" data-sub="IMC" data-sub-order="3">
+          <div class="tool bmi reveal" id="imc" data-collapse data-sub="IMC" data-sub-order="3">
             <aside class="tool__side">
               <span class="tool__icon"><svg aria-hidden="true"><use href="#i-chart"/></svg></span>
               <h3 class="tool__title">Calculadora de IMC</h3>
               <p class="tool__sub">Com estimativa de gordura corporal por sexo e idade.</p>
+              <button class="btn btn--primary btn--block m-expand" type="button" data-expand hidden>Calcular meu IMC</button>
 
-              <form class="bmi__form" data-bmi novalidate>
+              <form class="bmi__form" data-bmi novalidate data-collapsible>
                 <fieldset class="seg-control">
                   <legend class="sr-only">Sexo</legend>
                   <label><input type="radio" name="sex" value="f" checked><span>Feminino</span></label>
@@ -619,10 +622,10 @@
                   </div>
                 </div>
               </form>
-              <p class="bmi__privacy">Calculado no seu navegador. Nenhum dado é enviado.</p>
+              <p class="bmi__privacy" data-collapsible>Calculado no seu navegador. Nenhum dado é enviado.</p>
             </aside>
 
-            <div class="tool__main bmi__result" data-bmi-result aria-live="polite">
+            <div class="tool__main bmi__result" data-collapsible data-bmi-result aria-live="polite">
               <!-- Medidor -->
               <div class="gauge">
                 <svg class="gauge__svg" viewBox="0 0 220 130" aria-hidden="true">
@@ -1031,22 +1034,22 @@
     </div>
   </footer>
 
-  <!-- Abas do celular: cada aba é uma "página" (só no celular) -->
-  <nav class="mbar" aria-label="Páginas" data-mbar>
-    <a class="mbar__btn" href="#inicio" data-tab="inicio">
-      <svg aria-hidden="true"><use href="#i-home"/></svg><span>Início</span>
+  <!-- Barra de ações (só no celular) — zona do polegar -->
+  <nav class="mbar" aria-label="Ações rápidas" data-mbar>
+    <a class="mbar__btn" href="https://wa.me/5511964202707" target="_blank" rel="noopener">
+      <svg aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp</span>
     </a>
-    <a class="mbar__btn" href="#atividades" data-tab="treinos">
-      <svg aria-hidden="true"><use href="#i-dumbbell"/></svg><span>Treinos</span>
+    <a class="mbar__btn" href="tel:+5511964202707">
+      <svg aria-hidden="true"><use href="#i-phone"/></svg><span>Ligar</span>
     </a>
-    <a class="mbar__btn" href="#planos" data-tab="planos">
-      <svg aria-hidden="true"><use href="#i-tag"/></svg><span>Planos</span>
+    <a class="mbar__btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Av.+da+Moenda+Velha,+31+-+Parque+Independ%C3%AAncia,+S%C3%A3o+Paulo+-+SP,+05880-330" target="_blank" rel="noopener">
+      <svg aria-hidden="true"><use href="#i-pin"/></svg><span>Rota</span>
     </a>
-    <a class="mbar__btn" href="#sobre" data-tab="academia">
-      <svg aria-hidden="true"><use href="#i-building"/></svg><span>Academia</span>
+    <a class="mbar__btn mbar__btn--primary" data-trial href="https://wa.me/5511964202707?text=Ol%C3%A1!%20Quero%20agendar%20minha%20aula%20experimental%20gr%C3%A1tis%20na%20DNA%20FORT." target="_blank" rel="noopener">
+      <svg aria-hidden="true"><use href="#i-dumbbell"/></svg><span>Aula grátis</span>
     </a>
-    <a class="mbar__btn" href="#localizacao" data-tab="contato">
-      <svg aria-hidden="true"><use href="#i-chat"/></svg><span>Contato</span>
+    <a class="mbar__btn mbar__btn--primary" data-no-trial hidden href="#contato" data-join>
+      <svg aria-hidden="true"><use href="#i-dumbbell"/></svg><span>Matricular</span>
     </a>
   </nav>
 
