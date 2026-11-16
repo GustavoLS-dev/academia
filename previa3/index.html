@@ -13,6 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="tema-dourado.css">
+  <link rel="stylesheet" href="header.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -34,22 +35,52 @@
   </svg>
 
   <!-- ===== BARRA DE PROMOÇÃO ===== -->
-  <div class="topbar">
+  <div class="topbar" data-topbar>
     <svg aria-hidden="true"><use href="#i-bolt"/></svg>
-    <span><b>Aula experimental grátis</b> · agende agora pelo WhatsApp</span>
+    <span><b>Aula experimental grátis</b><span class="topbar__extra"> · agende agora pelo WhatsApp</span></span>
     <a href="https://wa.me/5511964202707?text=Ol%C3%A1!%20Quero%20agendar%20minha%20aula%20experimental%20gr%C3%A1tis%20na%20DNA%20FORT." target="_blank" rel="noopener">Agendar →</a>
+    <button class="topbar__close" type="button" aria-label="Fechar aviso" data-topbar-close>×</button>
   </div>
 
   <!-- ===== HEADER ===== -->
   <header class="hd" data-header>
     <div class="wrap hd__in">
       <a href="#topo" class="hd__logo" aria-label="DNA FORT Academia — início"><img src="../assets/img/logo.png" alt="DNA FORT Academia" width="96" height="79"></a>
+
       <nav class="hd__nav" aria-label="Principal">
-        <a href="#planos">Planos</a><a href="#modalidades">Modalidades</a><a href="#aulas">Aulas</a><a href="#imc">IMC</a><a href="#unidade">Unidade</a>
+        <a href="#planos" data-spy>Planos</a>
+        <a href="#modalidades" data-spy>Modalidades</a>
+        <a href="#aulas" data-spy>Aulas</a>
+        <a href="#imc" data-spy>IMC</a>
+        <a href="#unidade" data-spy>Unidade</a>
       </nav>
+
       <div class="hd__right">
         <span class="status" data-status hidden><i></i><span data-status-text></span></span>
-        <a class="btn btn--y btn--sm" href="#planos">Matricule-se</a>
+        <a class="btn btn--y btn--sm hd__cta" href="#planos">Matricule-se</a>
+        <button class="burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu" data-burger>
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menu do celular -->
+    <div class="mmenu" id="menu" data-menu hidden>
+      <nav class="mmenu__links" aria-label="Menu">
+        <a href="#planos"><span>01</span>Planos</a>
+        <a href="#objetivo"><span>02</span>Qual é o seu objetivo?</a>
+        <a href="#modalidades"><span>03</span>Modalidades</a>
+        <a href="#aulas"><span>04</span>Aulas de hoje</a>
+        <a href="#imc"><span>05</span>Calculadora de IMC</a>
+        <a href="#unidade"><span>06</span>Unidade e horários</a>
+        <a href="#duvidas"><span>07</span>Dúvidas</a>
+      </nav>
+      <div class="mmenu__foot">
+        <a class="btn btn--y btn--block" href="https://wa.me/5511964202707?text=Ol%C3%A1!%20Quero%20agendar%20minha%20aula%20experimental%20gr%C3%A1tis%20na%20DNA%20FORT." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg>Agendar aula grátis</a>
+        <div class="mmenu__row">
+          <a class="btn btn--ghost" href="tel:+5511964202707"><svg aria-hidden="true"><use href="#i-phone"/></svg>Ligar</a>
+          <a class="btn btn--ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=Av.+da+Moenda+Velha,+31+-+Parque+Independ%C3%AAncia,+S%C3%A3o+Paulo+-+SP,+05880-330" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Rota</a>
+        </div>
       </div>
     </div>
   </header>

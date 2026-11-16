@@ -141,8 +141,57 @@
     els.forEach((e) => io.observe(e));
   }
 
+  /* Header: encolhe ao rolar, barra de progresso e seção ativa */
+  function header() {
+    const hd = $('[data-header]'); if (!hd) return;
+    const links = $$('[data-spy]');
+    const sections = links.map((a) => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+    let ticking = false;
+    const upd = () => {
+      const y = scrollY;
+      hd.classList.toggle('is-scrolled', y > 20);
+      const max = document.documentElement.scrollHeight - innerHeight;
+      hd.style.setProperty('--p', max > 0 ? (y / max).toFixed(4) : 0);
+      // seção ativa: a última cujo topo passou da linha do header
+      const line = hd.offsetHeight + 120;
+      let active = null;
+      sections.forEach((s) => { if (s.getBoundingClientRect().top <= line) active = s.id; });
+      links.forEach((a) => a.classList.toggle('is-active', a.getAttribute('href') === `#${active}`));
+      ticking = false;
+    };
+    addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(upd); ticking = true; } }, { passive: true });
+    addEventListener('resize', upd);
+    upd();
+  }
+
+  /* Menu do celular */
+  function menu() {
+    const btn = $('[data-burger]'); const panel = $('[data-menu]'); if (!btn || !panel) return;
+    const root = document.documentElement;
+    const set = (open) => {
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      panel.hidden = !open;
+      root.classList.toggle('menu-open', open);
+    };
+    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+    $$('a', panel).forEach((a) => a.addEventListener('click', () => set(false)));
+    addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { set(false); btn.focus(); } });
+    matchMedia('(min-width: 1001px)').addEventListener('change', (m) => { if (m.matches) set(false); });
+  }
+
+  /* Fechar a barra de promoção */
+  function topbar() {
+    const bar = $('[data-topbar]'); const close = $('[data-topbar-close]'); if (!bar || !close) return;
+    try { if (sessionStorage.getItem('dna-topbar') === '0') bar.hidden = true; } catch (e) { /* sem storage */ }
+    close.addEventListener('click', () => {
+      bar.hidden = true;
+      try { sessionStorage.setItem('dna-topbar', '0'); } catch (e) { /* sem storage */ }
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    [status, counters, goals, filters, classes, bmi, mbar, reveal].forEach((fn) => { try { fn(); } catch (e) { console.error(e); } });
+    [topbar, header, menu, status, counters, goals, filters, classes, bmi, mbar, reveal].forEach((fn) => { try { fn(); } catch (e) { console.error(e); } });
     $$('[data-year]').forEach((e) => { e.textContent = new Date().getFullYear(); });
   });
 })();
