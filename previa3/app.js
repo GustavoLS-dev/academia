@@ -49,13 +49,15 @@
     const t = now(); const today = HOURS[t.day];
     const td = $('[data-today]'); if (td) td.textContent = `${today[0]} – ${today[1]}`;
     $$('.hours tr[data-days]').forEach((tr) => tr.classList.toggle('is-today', tr.dataset.days.split(',').map(Number).includes(t.day)));
-    const el = $('[data-status]'); if (!el) return;
+    const els = $$('[data-status]'); if (!els.length) return;
     let open = false, text;
     if (t.min >= toMin(today[0]) && t.min < toMin(today[1])) { open = true; text = `Aberto agora · até ${fmtH(today[1])}`; }
     else if (t.min < toMin(today[0])) text = `Abre hoje às ${fmtH(today[0])}`;
     else { const d = (t.day + 1) % 7; text = `Abre ${DAYS[d]} às ${fmtH(HOURS[d][0])}`; }
-    $('[data-status-text]', el).textContent = text;
-    el.classList.toggle('is-open', open); el.classList.toggle('is-closed', !open); el.hidden = false;
+    els.forEach((el) => {
+      $('[data-status-text]', el).textContent = text;
+      el.classList.toggle('is-open', open); el.classList.toggle('is-closed', !open); el.hidden = false;
+    });
   }
 
   /* Números contando */

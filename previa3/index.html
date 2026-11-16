@@ -56,7 +56,6 @@
       </nav>
 
       <div class="hd__right">
-        <span class="status" data-status hidden><i></i><span data-status-text></span></span>
         <a class="btn btn--y btn--sm hd__cta" href="#planos">Matricule-se</a>
         <button class="burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu" data-burger>
           <span></span><span></span><span></span>
@@ -342,8 +341,12 @@
   </footer>
 
   <!-- WhatsApp flutuante (computador) e barra fixa (celular) -->
-  <a class="wa" href="https://wa.me/5511964202707" target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+  <div class="wa-dock">
+    <span class="status status--dock" data-status hidden><i></i><span data-status-text></span></span>
+    <a class="wa" href="https://wa.me/5511964202707" target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+  </div>
   <div class="mbar" data-mbar>
+    <span class="status mbar__status" data-status hidden><i></i><span data-status-text></span></span>
     <a href="https://wa.me/5511964202707" target="_blank" rel="noopener" aria-label="WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
     <a href="tel:+5511964202707" aria-label="Ligar"><svg aria-hidden="true"><use href="#i-phone"/></svg></a>
     <a class="mbar__cta" href="https://wa.me/5511964202707?text=Ol%C3%A1!%20Quero%20agendar%20minha%20aula%20experimental%20gr%C3%A1tis%20na%20DNA%20FORT." target="_blank" rel="noopener">Aula grátis <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
