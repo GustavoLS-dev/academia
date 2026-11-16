@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/game.css">
   <link rel="stylesheet" href="assets/css/extras.css">
+  <link rel="stylesheet" href="assets/css/mobile.css">
   <script>document.documentElement.classList.add('js');</script>
 
   <script type="application/ld+json">
@@ -150,7 +151,11 @@
     <!-- ============ HERO ============ -->
     <section class="hero" id="inicio" aria-labelledby="hero-title">
       <div class="hero__media" aria-hidden="true">
-        <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=2000&q=80" alt="" fetchpriority="high">
+        <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=2000&q=80"
+             srcset="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=800&q=70 800w,
+                     https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=1400&q=75 1400w,
+                     https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=2000&q=80 2000w"
+             sizes="100vw" alt="" fetchpriority="high">
       </div>
 
       <div class="container hero__content">
@@ -246,6 +251,7 @@
         </header>
 
         <div class="cards">
+          <div class="cards__track m-scroll">
           <article class="card reveal">
             <div class="card__media"><img class="photo-real" src="assets/img/academia/musculacao.jpg" alt="Alunos treinando na área de musculação da DNA FORT" width="743" height="556" loading="lazy"></div>
             <div class="card__body">
@@ -322,6 +328,7 @@
               <a class="card__link" href="#contato" data-join="Muay Thai">Quero treinar <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
             </div>
           </article>
+          </div>
 
           <!-- Grade de aulas por dia (preenchida por main.js — edite SCHEDULE lá) -->
           <div class="schedule reveal" id="grade">
@@ -1002,6 +1009,25 @@
       </div>
     </div>
   </footer>
+
+  <!-- Barra de ações rápidas (só no celular) — zona do polegar -->
+  <nav class="mbar" aria-label="Ações rápidas" data-mbar>
+    <a class="mbar__btn" href="https://wa.me/5511964202707" target="_blank" rel="noopener">
+      <svg aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp</span>
+    </a>
+    <a class="mbar__btn" href="tel:+5511964202707">
+      <svg aria-hidden="true"><use href="#i-phone"/></svg><span>Ligar</span>
+    </a>
+    <a class="mbar__btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Av.+da+Moenda+Velha,+31+-+Parque+Independ%C3%AAncia,+S%C3%A3o+Paulo+-+SP,+05880-330" target="_blank" rel="noopener">
+      <svg aria-hidden="true"><use href="#i-pin"/></svg><span>Rota</span>
+    </a>
+    <a class="mbar__btn mbar__btn--primary" data-trial href="https://wa.me/5511964202707?text=Ol%C3%A1!%20Quero%20agendar%20minha%20aula%20experimental%20gr%C3%A1tis%20na%20DNA%20FORT." target="_blank" rel="noopener">
+      <svg aria-hidden="true"><use href="#i-dumbbell"/></svg><span>Aula grátis</span>
+    </a>
+    <a class="mbar__btn mbar__btn--primary" data-no-trial hidden href="#contato" data-join>
+      <svg aria-hidden="true"><use href="#i-dumbbell"/></svg><span>Matricular</span>
+    </a>
+  </nav>
 
   <a class="wa-float" href="https://wa.me/5511964202707" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
     <svg aria-hidden="true"><use href="#i-whatsapp"/></svg>

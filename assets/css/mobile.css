@@ -1,0 +1,126 @@
+/* =========================================================
+   DNA FORTE — Experiência mobile
+   Princípios aplicados:
+   - Lei de Fitts / zona do polegar: ações principais fixas embaixo, alvos ≥ 48px
+   - Lei de Hick: menos opções por tela; o mais útil primeiro ("Aulas por dia")
+   - Lei de Jakob: carrosséis com "peek", padrão conhecido dos apps
+   - Lei da proximidade: informações rápidas agrupadas em blocos tocáveis
+   - Limite de Doherty: imagens menores no celular, sem animações pesadas
+   ========================================================= */
+
+/* No desktop o trilho de cards não altera o grid */
+.cards__track { display: contents; }
+.mbar { display: none; }
+
+@media (max-width: 720px) {
+  :root { --section-y: 56px; }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+
+  /* ---------- Barra de ações (zona do polegar) ---------- */
+  .wa-float { display: none; }
+  .mbar {
+    position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); z-index: 95;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 6px;
+    border-radius: 20px;
+    background: rgba(12, 12, 12, .84);
+    -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%);
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 12px 30px rgba(0,0,0,.6);
+    transform: translateY(140%);
+    transition: transform .35s var(--ease);
+  }
+  html.show-mbar .mbar { transform: none; }
+  html.typing .mbar, html.menu-open .mbar { transform: translateY(140%); }
+  .mbar__btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    min-height: 54px; border-radius: 14px;
+    font-size: 11.5px; font-weight: 600; color: var(--text-2);
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .15s, transform .15s;
+  }
+  .mbar__btn svg { width: 22px; height: 22px; color: var(--accent); }
+  .mbar__btn:active { background: rgba(255,255,255,.08); transform: scale(.96); }
+  .mbar__btn--primary {
+    color: var(--accent-ink);
+    background: linear-gradient(180deg, var(--accent-light), var(--accent));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+  }
+  .mbar__btn--primary svg { color: var(--accent-ink); }
+  .mbar__btn--primary:active { background: linear-gradient(180deg, var(--accent), var(--accent-dark)); }
+
+  /* ---------- Header: mais espaço para o conteúdo ---------- */
+  .header.is-scrolled .promo { display: none; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding-bottom: 18px; }
+  .hero__content { padding-bottom: 22px; }
+  .hero__lead { margin-top: 14px; font-size: 15.5px; }
+  .hero__ctas { margin-top: 22px; gap: 10px; }
+
+  /* Informações rápidas: 3 blocos tocáveis lado a lado */
+  .quick { grid-template-columns: repeat(3, 1fr); border-radius: 18px; }
+  .quick__item { position: relative; flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 10px; }
+  .quick__item + .quick__item { border-top: 0; border-left: 1px solid var(--line); }
+  .quick__icon { width: 34px; height: 34px; padding: 8px; }
+  .quick__label { font-size: 10.5px; letter-spacing: .06em; }
+  .quick__value {
+    font-size: 13px; line-height: 1.3;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  a.quick__value::after { content: ""; position: absolute; inset: 0; } /* o bloco inteiro é clicável */
+
+  /* ---------- Títulos e textos mais compactos ---------- */
+  .section-head { margin-bottom: 24px; }
+  .section-head__text { font-size: 15.5px; margin-top: 10px; }
+  .marquee { padding: 14px 0; }
+  .marquee span { font-size: 1.7rem; }
+  .marquee__track { gap: 22px; }
+
+  /* ---------- Carrosséis horizontais com "peek" ---------- */
+  .cards__track, .gallery, .team {
+    display: grid; grid-auto-flow: column;
+    grid-template-columns: none; grid-template-rows: none;
+    gap: 12px;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 4px var(--gutter) 12px;
+    scroll-padding-inline: var(--gutter);
+  }
+  .cards__track::-webkit-scrollbar, .gallery::-webkit-scrollbar, .team::-webkit-scrollbar { display: none; }
+  .cards__track > *, .gallery > *, .team > * { scroll-snap-align: start; }
+  /* itens do carrossel aparecem direto (sem esperar a animação de entrada) */
+  .js .cards__track .reveal, .js .gallery .reveal, .js .team .reveal { opacity: 1; transform: none; }
+
+  /* Atividades: "Aulas por dia" primeiro, depois o carrossel */
+  .cards { display: flex; flex-direction: column; gap: 16px; }
+  .schedule { order: -1; }
+  .cards__track { grid-auto-columns: 78%; }
+  .card__media img, .card__media img { aspect-ratio: 16 / 10; }
+  .cards::after {
+    content: "Arraste para o lado para ver todas as modalidades →";
+    font-size: 12.5px; color: var(--text-3); text-align: center; margin-top: -6px;
+  }
+
+  /* Estrutura */
+  .gallery { grid-auto-columns: 84%; grid-auto-rows: 250px; }
+  .gallery__item--big { grid-column: auto; grid-row: auto; }
+
+  /* Equipe */
+  .team { grid-auto-columns: 62%; }
+
+  /* Desafio: personagem um pouco menor para caber na tela com o botão */
+  .stage__char { max-width: 280px; }
+
+  /* Rodapé: espaço para a barra fixa */
+  .footer__bottom { padding-bottom: 16px; }
+}
+
+@media (max-width: 380px) {
+  .mbar__btn { font-size: 10.5px; }
+  .quick__value { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mbar { transition: none; }
+}

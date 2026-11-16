@@ -27,6 +27,14 @@ assets/img/           Logo e favicon
 | Itens de estrutura | Lista `.amenities`: mantenha só o que a academia oferece |
 | Fotos que ainda são de exemplo | Hero (fundo), cards de Pilates, Fit Dance, Jump e Muay Thai, fotos da Equipe |
 
+## Celular
+
+`assets/css/mobile.css` (vale até 720 px de largura):
+- Barra de ações fixa embaixo (WhatsApp, Ligar, Rota, Aula grátis). Aparece depois do hero e some
+  enquanto o teclado está aberto. Os links ficam no fim do `index.html` (`<nav class="mbar">`).
+- Atividades, Estrutura e Equipe viram carrosséis horizontais; "Aulas por dia" aparece antes dos cards.
+- A faixa de promoção some ao rolar a página.
+
 ## Fotos reais
 
 Ficam em `assets/img/academia/` e aparecem **coloridas** (classe `photo-real`); as de exemplo (Unsplash)

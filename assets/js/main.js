@@ -60,6 +60,7 @@
       burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
       menu.hidden = !open;
       document.body.classList.toggle('is-locked', open);
+      document.documentElement.classList.toggle('menu-open', open);
     };
 
     burger.addEventListener('click', () => setOpen(burger.getAttribute('aria-expanded') !== 'true'));
@@ -214,7 +215,7 @@
 
   /* ---------- Entrada em cascata (atraso por posição no grupo) ---------- */
   function initStagger() {
-    const groups = ['.cards', '.team', '.gallery', '.features', '.channels', '.visit__info', '.offer'];
+    const groups = ['.cards__track', '.team', '.gallery', '.features', '.channels', '.visit__info', '.offer'];
     groups.forEach((sel) => {
       $$(sel).forEach((group) => {
         $$(':scope > .reveal, :scope > li.reveal', group).forEach((el, i) => {
@@ -229,6 +230,29 @@
         });
       });
     });
+  }
+
+  /* ---------- Barra de ações do celular ---------- */
+  function initMobileBar() {
+    const bar = $('[data-mbar]');
+    if (!bar) return;
+    const root = document.documentElement;
+    const hero = $('.hero');
+
+    // aparece depois que o visitante passa do hero (lá já existem os botões principais)
+    let ticking = false;
+    const update = () => {
+      const limit = hero ? hero.offsetHeight * 0.6 : 400;
+      root.classList.toggle('show-mbar', window.scrollY > limit);
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, { passive: true });
+    update();
+
+    // some enquanto o teclado está aberto (digitando no formulário/IMC)
+    const isField = (el) => el && el.matches && el.matches('input:not([type="radio"]):not([type="checkbox"]), textarea, select');
+    document.addEventListener('focusin', (e) => { if (isField(e.target)) root.classList.add('typing'); });
+    document.addEventListener('focusout', (e) => { if (isField(e.target)) root.classList.remove('typing'); });
   }
 
   /* ---------- Recursos liga/desliga (promoção e aula experimental) ---------- */
@@ -469,7 +493,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    [initFeatures, initHeader, initMenu, initActiveNav, initStagger, initReveal, initStats, initProgress, initHeroFx,
+    [initFeatures, initMobileBar, initHeader, initMenu, initActiveNav, initStagger, initReveal, initStats, initProgress, initHeroFx,
       initTilt, initRipple, initStatus, initTodayHours,
       initSchedule, initBilling, initJoinLinks, initForm, initYear]
       .forEach((fn) => { try { fn(); } catch (err) { console.error(`[DNA FORTE] ${fn.name}`, err); } });
