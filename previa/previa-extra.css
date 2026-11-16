@@ -7,6 +7,23 @@
   padding: 7px 12px;
 }
 
+/* Espaços reservados para fotos ("Foto: ...") */
+.ph {
+  display: grid; place-content: center; justify-items: center; gap: 6px; text-align: center; padding: 20px;
+  border-radius: 18px; aspect-ratio: 4 / 3;
+  background:
+    repeating-linear-gradient(45deg, rgba(0,0,0,.035) 0 12px, transparent 12px 24px),
+    #EDE8DD;
+  border: 2px dashed #CFC6B4;
+  color: var(--ink-2);
+}
+.ph svg { width: 40px; height: 40px; color: var(--gold-dark); margin-bottom: 4px; }
+.ph strong { font-family: var(--f-display); font-weight: 800; font-stretch: 90%; font-size: 1.15rem; color: var(--ink); }
+.ph span { font-size: 13.5px; color: var(--muted); }
+.ph--hero { aspect-ratio: 4 / 3.4; border-radius: 28px; }
+.ph--hero svg { width: 56px; height: 56px; }
+.ph--hero strong { font-size: 1.6rem; }
+
 /* Modalidades em lista simples */
 .modlist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .modlist li {
