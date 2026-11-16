@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 48" role="img" aria-label="DNA FORTE">
+  <g fill="#FFD400" fill-rule="evenodd">
+    <path d="M0 0H26L40 14V34L26 48H0Z M12 12H21L28 19V29L21 36H12Z"/>
+    <path d="M45 0H57L73 27V0H85V48H73L57 21V48H45Z"/>
+    <path d="M104 0H116L130 48H118L115.5 39H104.5L102 48H90Z M107 29H113L110 18Z"/>
+  </g>
+  <rect x="144" y="0" width="1.5" height="48" fill="#808080"/>
+  <text x="158" y="31" fill="#fff" font-family="Archivo, Arial Black, sans-serif" font-weight="800" font-size="17" letter-spacing="5.5">FORTE</text>
+</svg>
