@@ -1,0 +1,104 @@
+/* =========================================================
+   Prévia 3 — mesmas cores do site final:
+   preto/grafite + dourado da logo (#E7B34C) + componentes em vidro
+   (carregado depois do style.css e sobrescreve as cores)
+   ========================================================= */
+:root {
+  --y: #E7B34C;        /* dourado da logo */
+  --y2: #F3CD78;       /* dourado claro */
+  --y3: #CF9C36;       /* dourado escuro */
+  --k: #000000;
+  --k2: #0A0A0A;
+  --k3: #151515;
+  --k4: #262626;
+  --gold-grad: linear-gradient(155deg, #F3CD78 0%, #E7B34C 50%, #CF9C36 100%);
+  --glass-bg: linear-gradient(145deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.035) 38%, rgba(255,255,255,.02) 62%, rgba(255,255,255,.06) 100%);
+  --glass-border: rgba(255,255,255,.14);
+  --glass-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.04), 0 12px 32px -8px rgba(0,0,0,.55);
+}
+html, body { background: #000; }
+
+/* ---------- Faixas e blocos dourados com gradiente ---------- */
+.topbar, .marquee, .sec--y, .final { background: var(--gold-grad); }
+.sec--y { background:
+  radial-gradient(80% 120% at 100% 0%, rgba(255,255,255,.3), rgba(255,255,255,0) 55%),
+  var(--gold-grad); }
+.final { background:
+  radial-gradient(80% 140% at 100% 0%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%),
+  var(--gold-grad); }
+
+/* ---------- Botões dourados "líquidos" ---------- */
+.btn { border-radius: 12px; }
+.btn--y {
+  background: linear-gradient(180deg, var(--y2) 0%, var(--y) 52%, var(--y3) 100%);
+  border-color: rgba(255,255,255,.35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 6px rgba(0,0,0,.12), 0 8px 22px -6px rgba(231,179,76,.55);
+}
+.btn--y:hover { background: linear-gradient(180deg, var(--y2) 0%, var(--y) 52%, var(--y3) 100%); filter: brightness(1.07); }
+.btn--ghost {
+  background: var(--glass-bg); border-color: var(--glass-border);
+  -webkit-backdrop-filter: blur(16px) saturate(160%); backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
+}
+.btn--ghost:hover { border-color: rgba(231,179,76,.7); color: var(--y2); }
+.btn--k { box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 8px 20px -8px rgba(0,0,0,.5); }
+
+/* ---------- Header em vidro ---------- */
+.hd { background: rgba(0,0,0,.6); -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%); }
+.status { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); }
+
+/* ---------- Hero ---------- */
+.hero { background:
+  radial-gradient(60% 60% at 85% 25%, rgba(231,179,76,.18), rgba(231,179,76,0) 65%),
+  radial-gradient(50% 50% at 0% 100%, rgba(255,255,255,.05), rgba(255,255,255,0) 60%),
+  #000; }
+.hero__title .hl { color: #000; }
+.hero__title .hl::before { background: var(--gold-grad); }
+.hero__slab { background: var(--gold-grad); opacity: .95; }
+.sticker { background: #000; border-color: var(--y); box-shadow: 0 0 0 6px rgba(231,179,76,.15), 0 18px 40px -12px rgba(0,0,0,.7); }
+
+/* ---------- Cartões em vidro (liquid glass) ---------- */
+.stat, .plan:not(.plan--y), .card, .mod, .faq details, .goal__box, .chips li, .filters {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+.stat { border-top: 3px solid var(--y); }
+.goal__box { background: rgba(0,0,0,.82); }
+.mod:hover, .faq details[open] { border-color: rgba(231,179,76,.6); }
+.plan--y {
+  background: linear-gradient(180deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 30%), var(--gold-grad);
+  border: 1px solid rgba(255,255,255,.4);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -10px 30px rgba(0,0,0,.12), 0 24px 50px -18px rgba(231,179,76,.55);
+}
+
+/* Botões de escolha (objetivo, dias, filtros) em vidro, selecionado em dourado */
+.goal__opts button, .days { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.1); }
+.goal__opts button[aria-pressed="true"], .days button[aria-pressed="true"], .filters button[aria-pressed="true"] {
+  background: linear-gradient(180deg, var(--y2), var(--y)); box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+/* ---------- Espaços reservados de foto ---------- */
+.ph {
+  background: repeating-linear-gradient(45deg, rgba(255,255,255,.03) 0 12px, transparent 12px 24px), rgba(255,255,255,.03);
+  border-color: rgba(231,179,76,.4);
+}
+/* no hero o espaço fica sobre a faixa dourada: fundo sólido para o texto ficar legível */
+.ph--hero { background: repeating-linear-gradient(45deg, rgba(255,255,255,.03) 0 12px, transparent 12px 24px), #111; }
+
+/* ---------- Fundos das seções com brilho dourado suave (para o vidro aparecer) ---------- */
+.sec, .stats { position: relative; isolation: isolate; overflow: hidden; }
+.sec::before, .stats::before {
+  content: ""; position: absolute; z-index: -1; width: 560px; height: 560px; top: -200px; right: -200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(231,179,76,.14), rgba(231,179,76,0) 65%); pointer-events: none;
+}
+.sec--y::before { display: none; }
+.sec--k2 { background: #0A0A0A; }
+
+/* ---------- IMC e barra do celular ---------- */
+.bmi input { background: rgba(0,0,0,.45); border-color: rgba(255,255,255,.14); box-shadow: inset 0 2px 6px rgba(0,0,0,.4); }
+.bmi input:focus { border-color: var(--y); box-shadow: inset 0 2px 6px rgba(0,0,0,.4), 0 0 0 3px rgba(231,179,76,.2); }
+.mbar { background: rgba(10,10,10,.86); -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%); border-color: rgba(255,255,255,.12); }
+.mbar a { background: rgba(255,255,255,.05); }
+.mbar__cta { background: linear-gradient(180deg, var(--y2), var(--y)) !important; }
