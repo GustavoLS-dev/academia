@@ -29,11 +29,25 @@ assets/img/           Logo e favicon
 
 ## Celular
 
-`assets/css/mobile.css` (vale até 720 px de largura):
-- Barra de ações fixa embaixo (WhatsApp, Ligar, Rota, Aula grátis). Aparece depois do hero e some
-  enquanto o teclado está aberto. Os links ficam no fim do `index.html` (`<nav class="mbar">`).
+Até 720 px de largura o site funciona como um app, com **5 páginas** e abas fixas embaixo
+(`assets/css/mobile.css` + função `initPages` em `assets/js/main.js`). No computador continua uma página só.
+
+| Aba | Seções (`data-page`) |
+|---|---|
+| Início (`inicio`) | Hero, faixa de modalidades e atalhos |
+| Treinos (`treinos`) | Atividades + aulas por dia, Quiz/IMC, Desafio |
+| Planos (`planos`) | Planos, Depoimentos, chamada amarela |
+| Academia (`academia`) | Sobre, Estrutura, Equipe |
+| Contato (`contato`) | Horários e mapa, Dúvidas, Formulário, rodapé |
+
+- Para mudar uma seção de página, troque o atributo `data-page` dela no `index.html`.
+- **Sub-abas:** em Treinos (Aulas · Quiz · IMC · Desafio), Academia (Sobre · Estrutura · Equipe) e
+  Contato (Horários e mapa · Dúvidas · Fale conosco) aparece um assunto por vez. Cada bloco tem
+  `data-sub="Nome"` e `data-sub-order="1"`; para criar ou remover uma sub-aba, basta adicionar ou tirar esses atributos.
+  Assim nenhuma tela passa de cerca de 2,5 telas de altura.
+- Qualquer link `#secao` abre a página certa e rola até a seção; o "voltar" do celular funciona.
 - Atividades, Estrutura e Equipe viram carrosséis horizontais; "Aulas por dia" aparece antes dos cards.
-- A faixa de promoção some ao rolar a página.
+- As abas somem enquanto o teclado está aberto; a faixa de promoção some ao rolar.
 
 ## Fotos reais
 

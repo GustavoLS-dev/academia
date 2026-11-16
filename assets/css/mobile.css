@@ -1,63 +1,112 @@
 /* =========================================================
-   DNA FORTE — Experiência mobile
+   DNA FORTE — Experiência mobile ("páginas" com abas)
    Princípios aplicados:
-   - Lei de Fitts / zona do polegar: ações principais fixas embaixo, alvos ≥ 48px
-   - Lei de Hick: menos opções por tela; o mais útil primeiro ("Aulas por dia")
-   - Lei de Jakob: carrosséis com "peek", padrão conhecido dos apps
-   - Lei da proximidade: informações rápidas agrupadas em blocos tocáveis
-   - Limite de Doherty: imagens menores no celular, sem animações pesadas
+   - Lei de Jakob: abas fixas embaixo, como nos apps
+   - Lei de Miller / Hick: 5 abas, cada página com poucos assuntos
+   - Lei de Fitts / zona do polegar: navegação e ações ao alcance do polegar
+   - Lei da proximidade: conteúdos relacionados na mesma página
+   - Limite de Doherty: troca de página instantânea, sem recarregar
+   No desktop nada disso se aplica (o site continua uma página só).
    ========================================================= */
 
-/* No desktop o trilho de cards não altera o grid */
+/* No desktop o trilho de cards não altera o grid, e os atalhos ficam ocultos */
 .cards__track { display: contents; }
-.mbar { display: none; }
+.mbar, .m-only { display: none; }
 
 @media (max-width: 720px) {
-  :root { --section-y: 56px; }
-  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  :root { --section-y: 52px; }
+  body { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
 
-  /* ---------- Barra de ações (zona do polegar) ---------- */
-  .wa-float { display: none; }
-  .mbar {
-    position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); z-index: 95;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 6px;
-    border-radius: 20px;
-    background: rgba(12, 12, 12, .84);
-    -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%);
-    border: 1px solid rgba(255,255,255,.12);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 12px 30px rgba(0,0,0,.6);
-    transform: translateY(140%);
-    transition: transform .35s var(--ease);
+  /* ---------- Modo páginas ---------- */
+  html.m-pages [data-page]:not(.is-page-active) { display: none !important; }
+  html.m-pages .m-only.is-page-active { display: block; }
+  html.m-pages .is-page-active { animation: pageIn .35s var(--ease) both; }
+  @keyframes pageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  /* páginas que não começam pelo hero precisam de espaço para o header fixo */
+  html.m-pages:not([data-page="inicio"]) main { padding-top: var(--header-h); }
+  /* ordem dentro da página Treinos: Atividades → Quiz/IMC → Desafio */
+  html.m-pages main { display: flex; flex-direction: column; }
+  html.m-pages #desafio { order: 1; }
+
+  /* ---------- Sub-abas (um assunto por vez) ---------- */
+  html.m-pages [data-sub]:not(.is-sub-active),
+  html.m-pages .is-sub-hidden { display: none !important; }
+  .subnav {
+    position: sticky; z-index: 50;
+    top: calc(var(--header-h) - var(--promo-collapse, 0px));
+    display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    padding: 10px var(--gutter);
+    background: rgba(6, 6, 6, .88);
+    -webkit-backdrop-filter: blur(16px) saturate(160%); backdrop-filter: blur(16px) saturate(160%);
+    border-bottom: 1px solid var(--line);
   }
-  html.show-mbar .mbar { transform: none; }
-  html.typing .mbar, html.menu-open .mbar { transform: translateY(140%); }
-  .mbar__btn {
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
-    min-height: 54px; border-radius: 14px;
-    font-size: 11.5px; font-weight: 600; color: var(--text-2);
+  .subnav::-webkit-scrollbar { display: none; }
+  .subnav button {
+    flex: none; padding: 9px 16px; border-radius: 999px;
+    font-size: 14px; font-weight: 600; color: var(--text-2);
+    background: rgba(255,255,255,.05); border: 1px solid var(--line);
     -webkit-tap-highlight-color: transparent;
-    transition: background-color .15s, transform .15s;
+    transition: background-color .2s, color .2s, border-color .2s;
   }
-  .mbar__btn svg { width: 22px; height: 22px; color: var(--accent); }
-  .mbar__btn:active { background: rgba(255,255,255,.08); transform: scale(.96); }
-  .mbar__btn--primary {
-    color: var(--accent-ink);
+  .subnav button[aria-pressed="true"] {
+    color: var(--accent-ink); border-color: transparent;
     background: linear-gradient(180deg, var(--accent-light), var(--accent));
     box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
   }
-  .mbar__btn--primary svg { color: var(--accent-ink); }
-  .mbar__btn--primary:active { background: linear-gradient(180deg, var(--accent), var(--accent-dark)); }
+  .subnav button:active { transform: scale(.96); }
+  /* com sub-abas, a seção começa mais perto do topo */
+  html.m-pages .subnav:not([hidden]) ~ .section { padding-top: 28px; }
+  /* a faixa de promoção some ao rolar: as sub-abas sobem junto */
+  html.has-promo.scrolled { --promo-collapse: 38px; }
+
+  /* Rodapé no celular: só a linha final (as informações já estão na página Contato) */
+  html.m-pages .footer { padding-top: 0; }
+  html.m-pages .footer__grid { display: none; }
+  html.m-pages .footer__bottom { margin-top: 0; }
+
+  /* ---------- Abas fixas embaixo ---------- */
+  .mbar {
+    position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); z-index: 95;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; padding: 6px;
+    border-radius: 22px;
+    background: rgba(12, 12, 12, .86);
+    -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%);
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 12px 30px rgba(0,0,0,.6);
+    transition: transform .3s var(--ease);
+  }
+  html.typing .mbar, html.menu-open .mbar { transform: translateY(150%); }
+  .mbar__btn {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    min-height: 54px; border-radius: 16px;
+    font-size: 11px; font-weight: 600; color: var(--text-3);
+    -webkit-tap-highlight-color: transparent;
+    transition: color .2s, background-color .2s, transform .15s;
+  }
+  .mbar__btn svg { width: 23px; height: 23px; transition: transform .25s var(--ease); }
+  .mbar__btn:active { transform: scale(.94); }
+  .mbar__btn[aria-current="page"] {
+    color: var(--accent-ink);
+    background: linear-gradient(180deg, var(--accent-light), var(--accent));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 6px 16px -6px rgba(231,179,76,.6);
+  }
+  .mbar__btn[aria-current="page"] svg { transform: translateY(-1px) scale(1.05); }
+
+  /* WhatsApp flutuante acima das abas */
+  .wa-float { width: 50px; height: 50px; right: 14px; bottom: calc(84px + env(safe-area-inset-bottom)); }
+  .wa-float svg { width: 26px; height: 26px; }
+  html.typing .wa-float, html.menu-open .wa-float { display: none; }
 
   /* ---------- Header: mais espaço para o conteúdo ---------- */
   .header.is-scrolled .promo { display: none; }
 
-  /* ---------- Hero ---------- */
+  /* ---------- Início: hero + atalhos ---------- */
   .hero { padding-bottom: 18px; }
   .hero__content { padding-bottom: 22px; }
   .hero__lead { margin-top: 14px; font-size: 15.5px; }
   .hero__ctas { margin-top: 22px; gap: 10px; }
 
-  /* Informações rápidas: 3 blocos tocáveis lado a lado */
   .quick { grid-template-columns: repeat(3, 1fr); border-radius: 18px; }
   .quick__item { position: relative; flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 10px; }
   .quick__item + .quick__item { border-top: 0; border-left: 1px solid var(--line); }
@@ -67,13 +116,40 @@
     font-size: 13px; line-height: 1.3;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  a.quick__value::after { content: ""; position: absolute; inset: 0; } /* o bloco inteiro é clicável */
+  a.quick__value::after { content: ""; position: absolute; inset: 0; }
+
+  .shortcuts { padding: 28px 0 12px; }
+  .shortcuts__title {
+    font-family: var(--f-display); font-weight: 900; font-stretch: 80%; text-transform: uppercase;
+    font-size: 1.6rem; line-height: 1; margin-bottom: 14px;
+  }
+  .shortcuts__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .shortcut {
+    position: relative; display: grid; gap: 2px; align-content: start;
+    min-height: 116px; padding: 14px;
+    border-radius: 18px;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .15s, border-color .2s;
+  }
+  .shortcut:active { transform: scale(.97); border-color: rgba(231,179,76,.6); }
+  .shortcut__icon {
+    width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; margin-bottom: 8px;
+    color: var(--accent); background: rgba(231,179,76,.12); border: 1px solid rgba(231,179,76,.3);
+  }
+  .shortcut__icon svg { width: 22px; height: 22px; }
+  .shortcut strong { font-size: 15px; line-height: 1.2; }
+  .shortcut small { font-size: 12.5px; color: var(--text-3); }
+  .shortcut::after { content: "→"; position: absolute; top: 14px; right: 14px; color: var(--accent); }
 
   /* ---------- Títulos e textos mais compactos ---------- */
-  .section-head { margin-bottom: 24px; }
+  .section-head { margin-bottom: 22px; }
   .section-head__text { font-size: 15.5px; margin-top: 10px; }
-  .marquee { padding: 14px 0; }
-  .marquee span { font-size: 1.7rem; }
+  .marquee { padding: 12px 0; }
+  .marquee span { font-size: 1.6rem; }
   .marquee__track { gap: 22px; }
 
   /* ---------- Carrosséis horizontais com "peek" ---------- */
@@ -89,38 +165,40 @@
   }
   .cards__track::-webkit-scrollbar, .gallery::-webkit-scrollbar, .team::-webkit-scrollbar { display: none; }
   .cards__track > *, .gallery > *, .team > * { scroll-snap-align: start; }
-  /* itens do carrossel aparecem direto (sem esperar a animação de entrada) */
   .js .cards__track .reveal, .js .gallery .reveal, .js .team .reveal { opacity: 1; transform: none; }
 
-  /* Atividades: "Aulas por dia" primeiro, depois o carrossel */
   .cards { display: flex; flex-direction: column; gap: 16px; }
   .schedule { order: -1; }
   .cards__track { grid-auto-columns: 78%; }
-  .card__media img, .card__media img { aspect-ratio: 16 / 10; }
+  .card__media img { aspect-ratio: 16 / 10; }
   .cards::after {
     content: "Arraste para o lado para ver todas as modalidades →";
     font-size: 12.5px; color: var(--text-3); text-align: center; margin-top: -6px;
   }
 
-  /* Estrutura */
   .gallery { grid-auto-columns: 84%; grid-auto-rows: 250px; }
   .gallery__item--big { grid-column: auto; grid-row: auto; }
-
-  /* Equipe */
   .team { grid-auto-columns: 62%; }
 
-  /* Desafio: personagem um pouco menor para caber na tela com o botão */
-  .stage__char { max-width: 280px; }
+  /* Faixa amarela: botões empilhados, largura total (o texto nunca é cortado) */
+  .banner__ctas { flex-direction: column; width: 100%; }
+  .banner__ctas .btn { width: 100%; flex: none; }
+  /* Segurança: em botões estreitos, o texto quebra em vez de ser cortado */
+  .btn { white-space: normal; text-align: center; line-height: 1.2; padding-block: 10px; }
 
-  /* Rodapé: espaço para a barra fixa */
+  .stage__char { max-width: 280px; }
+  .about__media img { aspect-ratio: 16 / 10; }
+  .about__media::after { display: none; }
   .footer__bottom { padding-bottom: 16px; }
 }
 
 @media (max-width: 380px) {
-  .mbar__btn { font-size: 10.5px; }
+  .mbar__btn { font-size: 10px; }
   .quick__value { font-size: 12px; }
+  .shortcut { min-height: 108px; padding: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .mbar { transition: none; }
+  html.m-pages .is-page-active { animation: none; }
 }

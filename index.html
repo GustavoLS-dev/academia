@@ -78,6 +78,10 @@
     <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></g></symbol>
     <symbol id="i-sunset" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M7 17a5 5 0 0 1 10 0"/><path d="M2.5 20h19M12 4v4M4.6 9.6l1.4 1.4M19.4 9.6L18 11M2.5 17h2M19.5 17h2"/></g></symbol>
     <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6h-6v6H4.5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 12.6V4a1 1 0 0 1 1-1h8.6L21 11.4 12.4 20z"/><circle cx="7.6" cy="7.6" r="1.6"/></g></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 21V5l8-2v18M12 8h8v13M2.5 21h19"/><path d="M7 8h2M7 12h2M7 16h2M15 12h2M15 16h2"/></g></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
     <symbol id="i-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></g></symbol>
     <symbol id="i-calendar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4"/></g></symbol>
   </svg>
@@ -147,9 +151,11 @@
   </header>
 
   <main id="main">
+    <!-- Sub-abas do celular (preenchidas por main.js nas páginas com mais de um assunto) -->
+    <nav class="subnav" data-subnav aria-label="Seções desta página" hidden></nav>
 
     <!-- ============ HERO ============ -->
-    <section class="hero" id="inicio" aria-labelledby="hero-title">
+    <section class="hero" data-page="inicio" id="inicio" aria-labelledby="hero-title">
       <div class="hero__media" aria-hidden="true">
         <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=2000&q=80"
              srcset="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=800&q=70 800w,
@@ -201,15 +207,30 @@
     </section>
 
     <!-- ============ FAIXA DE MODALIDADES (animada) ============ -->
-    <div class="marquee" aria-label="Modalidades: Musculação, Cross Training, Pilates, Funcional, Fit Dance, Jump e Muay Thai">
+    <div class="marquee" data-page="inicio" aria-label="Modalidades: Musculação, Cross Training, Pilates, Funcional, Fit Dance, Jump e Muay Thai">
       <div class="marquee__track" aria-hidden="true">
         <span>Musculação</span><i></i><span class="o">Cross Training</span><i></i><span>Pilates</span><i></i><span class="o">Funcional</span><i></i><span>Fit Dance</span><i></i><span class="o">Jump</span><i></i><span>Muay Thai</span><i></i>
         <span>Musculação</span><i></i><span class="o">Cross Training</span><i></i><span>Pilates</span><i></i><span class="o">Funcional</span><i></i><span>Fit Dance</span><i></i><span class="o">Jump</span><i></i><span>Muay Thai</span><i></i>
       </div>
     </div>
 
+    <!-- ============ ATALHOS (só no celular, página Início) ============ -->
+    <section class="shortcuts m-only" data-page="inicio" aria-labelledby="shortcuts-title">
+      <div class="container">
+        <h2 class="shortcuts__title" id="shortcuts-title">O que você procura?</h2>
+        <div class="shortcuts__grid">
+          <a class="shortcut" href="#atividades"><span class="shortcut__icon"><svg aria-hidden="true"><use href="#i-calendar"/></svg></span><strong>Aulas e horários</strong><small>7 modalidades</small></a>
+          <a class="shortcut" href="#planos"><span class="shortcut__icon"><svg aria-hidden="true"><use href="#i-tag"/></svg></span><strong>Planos</strong><small>A partir de R$ 99</small></a>
+          <a class="shortcut" href="#descubra"><span class="shortcut__icon"><svg aria-hidden="true"><use href="#i-target"/></svg></span><strong>Qual treino combina?</strong><small>Quiz e IMC</small></a>
+          <a class="shortcut" href="#estrutura"><span class="shortcut__icon"><svg aria-hidden="true"><use href="#i-building"/></svg></span><strong>Estrutura</strong><small>Fotos da academia</small></a>
+          <a class="shortcut" href="#desafio"><span class="shortcut__icon"><svg aria-hidden="true"><use href="#i-dumbbell"/></svg></span><strong>Desafio DNA</strong><small>Jogue e desbloqueie</small></a>
+          <a class="shortcut" href="#localizacao"><span class="shortcut__icon"><svg aria-hidden="true"><use href="#i-pin"/></svg></span><strong>Como chegar</strong><small>Horários e mapa</small></a>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ SOBRE ============ -->
-    <section class="section" id="sobre" aria-labelledby="sobre-title">
+    <section class="section" data-page="academia" id="sobre" data-sub="Sobre" data-sub-order="1" aria-labelledby="sobre-title">
       <div class="container about">
         <figure class="about__media reveal">
           <img class="photo-real" src="assets/img/academia/espaco-funcional.jpg" alt="Salão de treino da DNA FORT com pilares amarelos, pneus e iluminação de LED" width="505" height="468" loading="lazy">
@@ -242,7 +263,7 @@
     </section>
 
     <!-- ============ ATIVIDADES ============ -->
-    <section class="section section--alt" id="atividades" aria-labelledby="atividades-title">
+    <section class="section section--alt" data-page="treinos" id="atividades" data-sub="Aulas" data-sub-order="1" aria-labelledby="atividades-title">
       <div class="container">
         <header class="section-head reveal">
           <p class="eyebrow">Atividades</p>
@@ -350,7 +371,7 @@
     </section>
 
     <!-- ============ DESAFIO (minijogo interativo) ============ -->
-    <section class="section game" id="desafio" aria-labelledby="desafio-title">
+    <section class="section game" data-page="treinos" id="desafio" data-sub="Desafio" data-sub-order="4" aria-labelledby="desafio-title">
       <div class="container">
         <header class="section-head section-head--center reveal">
           <p class="eyebrow">Desafio DNA FORTE</p>
@@ -495,7 +516,7 @@
     </section>
 
     <!-- ============ ESTRUTURA ============ -->
-    <section class="section" id="estrutura" aria-labelledby="estrutura-title">
+    <section class="section" data-page="academia" id="estrutura" data-sub="Estrutura" data-sub-order="2" aria-labelledby="estrutura-title">
       <div class="container">
         <header class="section-head reveal">
           <p class="eyebrow">Estrutura</p>
@@ -540,7 +561,7 @@
     </section>
 
     <!-- ============ DESCUBRA: QUIZ + IMC ============ -->
-    <section class="section section--alt" id="descubra" aria-labelledby="descubra-title">
+    <section class="section section--alt" data-page="treinos" id="descubra" aria-labelledby="descubra-title">
       <div class="container">
         <header class="section-head reveal">
           <p class="eyebrow">Descubra seu treino</p>
@@ -550,7 +571,7 @@
 
         <div class="tools">
           <!-- ===== QUIZ ===== -->
-          <div class="tool quiz reveal" data-quiz>
+          <div class="tool quiz reveal" id="quiz" data-sub="Quiz" data-sub-order="2" data-quiz>
             <aside class="tool__side">
               <span class="tool__icon"><svg aria-hidden="true"><use href="#i-target"/></svg></span>
               <h3 class="tool__title">Qual modalidade combina com você?</h3>
@@ -571,7 +592,7 @@
           </div>
 
           <!-- ===== CALCULADORA DE IMC ===== -->
-          <div class="tool bmi reveal">
+          <div class="tool bmi reveal" id="imc" data-sub="IMC" data-sub-order="3">
             <aside class="tool__side">
               <span class="tool__icon"><svg aria-hidden="true"><use href="#i-chart"/></svg></span>
               <h3 class="tool__title">Calculadora de IMC</h3>
@@ -645,7 +666,7 @@
     </section>
 
     <!-- ============ PLANOS ============ -->
-    <section class="section section--alt" id="planos" aria-labelledby="planos-title">
+    <section class="section section--alt" data-page="planos" id="planos" aria-labelledby="planos-title">
       <div class="container">
         <header class="section-head section-head--center reveal">
           <p class="eyebrow">Planos</p>
@@ -684,7 +705,7 @@
 
     <!-- ============ EQUIPE ============ -->
     <!-- NOMES PROVISÓRIOS — substitua pelos profissionais da academia -->
-    <section class="section" id="equipe" aria-labelledby="equipe-title">
+    <section class="section" data-page="academia" id="equipe" data-sub="Equipe" data-sub-order="3" aria-labelledby="equipe-title">
       <div class="container">
         <header class="section-head reveal">
           <p class="eyebrow">Personal trainers</p>
@@ -731,7 +752,7 @@
 
     <!-- ============ DEPOIMENTOS ============ -->
     <!-- Os depoimentos vêm da lista REVIEWS em assets/js/extras.js. Use apenas avaliações reais (ex.: copiadas do Google, com autorização). -->
-    <section class="section reviews" id="avaliacoes" aria-labelledby="reviews-title">
+    <section class="section reviews" data-page="planos" id="avaliacoes" aria-labelledby="reviews-title">
       <div class="container">
         <header class="section-head reveal">
           <p class="eyebrow">Depoimentos</p>
@@ -763,7 +784,7 @@
     </section>
 
     <!-- ============ CHAMADA ============ -->
-    <section class="banner" aria-labelledby="banner-title">
+    <section class="banner" data-page="planos" aria-labelledby="banner-title">
       <div class="container banner__inner">
         <h2 class="banner__title" id="banner-title">Seu próximo nível começa aqui.</h2>
         <div class="banner__ctas">
@@ -775,7 +796,7 @@
     </section>
 
     <!-- ============ HORÁRIOS E LOCALIZAÇÃO ============ -->
-    <section class="section" id="localizacao" aria-labelledby="local-title">
+    <section class="section" data-page="contato" id="localizacao" data-sub="Horários e mapa" data-sub-order="1" aria-labelledby="local-title">
       <div class="container">
         <header class="section-head reveal">
           <p class="eyebrow">Horários e localização</p>
@@ -824,7 +845,7 @@
 
     <!-- ============ PERGUNTAS FREQUENTES ============ -->
     <!-- Respostas entre [colchetes] precisam ser confirmadas pela academia -->
-    <section class="section section--alt" id="duvidas" aria-labelledby="faq-title">
+    <section class="section section--alt" data-page="contato" id="duvidas" data-sub="Dúvidas" data-sub-order="2" aria-labelledby="faq-title">
       <div class="container faq">
         <div class="faq__intro reveal">
           <p class="eyebrow">Perguntas frequentes</p>
@@ -875,7 +896,7 @@
     </section>
 
     <!-- ============ CONTATO ============ -->
-    <section class="section section--alt" id="contato" aria-labelledby="contato-title">
+    <section class="section section--alt" data-page="contato" id="contato" data-sub="Fale conosco" data-sub-order="3" aria-labelledby="contato-title">
       <div class="container contact">
         <div class="contact__info">
           <div class="reveal">
@@ -952,7 +973,7 @@
   </main>
 
   <!-- ============ FOOTER ============ -->
-  <footer class="footer">
+  <footer class="footer" data-page="contato">
     <div class="container">
       <div class="footer__grid">
         <div class="footer__brand">
@@ -1010,22 +1031,22 @@
     </div>
   </footer>
 
-  <!-- Barra de ações rápidas (só no celular) — zona do polegar -->
-  <nav class="mbar" aria-label="Ações rápidas" data-mbar>
-    <a class="mbar__btn" href="https://wa.me/5511964202707" target="_blank" rel="noopener">
-      <svg aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp</span>
+  <!-- Abas do celular: cada aba é uma "página" (só no celular) -->
+  <nav class="mbar" aria-label="Páginas" data-mbar>
+    <a class="mbar__btn" href="#inicio" data-tab="inicio">
+      <svg aria-hidden="true"><use href="#i-home"/></svg><span>Início</span>
     </a>
-    <a class="mbar__btn" href="tel:+5511964202707">
-      <svg aria-hidden="true"><use href="#i-phone"/></svg><span>Ligar</span>
+    <a class="mbar__btn" href="#atividades" data-tab="treinos">
+      <svg aria-hidden="true"><use href="#i-dumbbell"/></svg><span>Treinos</span>
     </a>
-    <a class="mbar__btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Av.+da+Moenda+Velha,+31+-+Parque+Independ%C3%AAncia,+S%C3%A3o+Paulo+-+SP,+05880-330" target="_blank" rel="noopener">
-      <svg aria-hidden="true"><use href="#i-pin"/></svg><span>Rota</span>
+    <a class="mbar__btn" href="#planos" data-tab="planos">
+      <svg aria-hidden="true"><use href="#i-tag"/></svg><span>Planos</span>
     </a>
-    <a class="mbar__btn mbar__btn--primary" data-trial href="https://wa.me/5511964202707?text=Ol%C3%A1!%20Quero%20agendar%20minha%20aula%20experimental%20gr%C3%A1tis%20na%20DNA%20FORT." target="_blank" rel="noopener">
-      <svg aria-hidden="true"><use href="#i-dumbbell"/></svg><span>Aula grátis</span>
+    <a class="mbar__btn" href="#sobre" data-tab="academia">
+      <svg aria-hidden="true"><use href="#i-building"/></svg><span>Academia</span>
     </a>
-    <a class="mbar__btn mbar__btn--primary" data-no-trial hidden href="#contato" data-join>
-      <svg aria-hidden="true"><use href="#i-dumbbell"/></svg><span>Matricular</span>
+    <a class="mbar__btn" href="#localizacao" data-tab="contato">
+      <svg aria-hidden="true"><use href="#i-chat"/></svg><span>Contato</span>
     </a>
   </nav>
 

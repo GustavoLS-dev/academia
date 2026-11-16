@@ -45,7 +45,11 @@
   /* ---------- Header: fundo sólido ao rolar ---------- */
   function initHeader() {
     const header = $('#header');
-    const update = () => header.classList.toggle('is-scrolled', window.scrollY > 20);
+    const update = () => {
+      const s = window.scrollY > 20;
+      header.classList.toggle('is-scrolled', s);
+      document.documentElement.classList.toggle('scrolled', s);
+    };
     window.addEventListener('scroll', update, { passive: true });
     update();
   }
@@ -230,6 +234,122 @@
         });
       });
     });
+  }
+
+  /* ---------- Celular: cada aba é uma "página" ----------
+     Todas as seções têm data-page="inicio|treinos|planos|academia|contato".
+     No celular só a página ativa aparece; links internos (#secao) trocam de página.
+     O botão "voltar" do navegador funciona normalmente.                         */
+  function initPages() {
+    const root = document.documentElement;
+    const mq = window.matchMedia('(max-width: 720px)');
+    const sections = $$('[data-page]');
+    const tabs = $$('[data-tab]');
+    const subs = $$('[data-sub]');
+    const subnav = $('[data-subnav]');
+    if (!sections.length) return;
+    let current = null;
+
+    const pageOf = (el) => { const s = el && el.closest('[data-page]'); return s ? s.dataset.page : null; };
+    const subsOf = (page) => subs
+      .filter((s) => pageOf(s) === page)
+      .sort((a, b) => (Number(a.dataset.subOrder) || 0) - (Number(b.dataset.subOrder) || 0));
+
+    const show = (page) => {
+      sections.forEach((s) => s.classList.toggle('is-page-active', s.dataset.page === page));
+      root.dataset.page = page;
+      tabs.forEach((t) => {
+        if (t.dataset.tab === page) t.setAttribute('aria-current', 'page');
+        else t.removeAttribute('aria-current');
+      });
+      current = page;
+    };
+
+    /* Sub-abas: nas páginas com vários assuntos, mostra um de cada vez */
+    const selectSub = (page, target) => {
+      const list = subsOf(page);
+      if (!subnav) return null;
+      if (!list.length) { subnav.hidden = true; return null; }
+
+      let chosen = target && target.closest('[data-sub]');
+      if (!chosen && target) chosen = list.find((s) => target.contains(s)) || null;
+      if (!chosen || !list.includes(chosen)) chosen = list[0];
+
+      list.forEach((s) => s.classList.toggle('is-sub-active', s === chosen));
+      // seções da página que só "embrulham" sub-abas (ex.: Quiz + IMC) somem se nenhuma delas estiver ativa
+      sections.filter((s) => s.dataset.page === page && !s.hasAttribute('data-sub')).forEach((s) => {
+        const inner = list.filter((x) => s.contains(x));
+        s.classList.toggle('is-sub-hidden', inner.length > 0 && !inner.includes(chosen));
+      });
+
+      subnav.innerHTML = list.map((s) => `<button type="button" data-goto="${s.id}" aria-pressed="${s === chosen}">${s.dataset.sub}</button>`).join('');
+      subnav.hidden = false;
+      const active = $('[aria-pressed="true"]', subnav);
+      if (active) active.scrollIntoView({ block: 'nearest', inline: 'center' });
+      return chosen;
+    };
+
+    const navigate = (id) => {
+      if (location.hash !== `#${id}`) {
+        try { history.pushState(null, '', `${location.pathname}${location.search}#${id}`); } catch (err) { /* segue sem histórico */ }
+      }
+      go(id, { smooth: true });
+    };
+
+    // id = alvo (#secao). Abre a página/sub-aba dele e rola até o alvo (ou para o topo).
+    const go = (id, { smooth = false } = {}) => {
+      const target = id ? document.getElementById(id) : null;
+      const page = pageOf(target) || 'inicio';
+      const changed = page !== current;
+      show(page);
+      const sub = selectSub(page, target);
+      const firstOfPage = sections.find((s) => s.dataset.page === page);
+      const atTop = !target || target === firstOfPage || target === sub || (sub && target.contains(sub));
+      if (atTop) {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      } else {
+        const offset = (parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 70) + (subnav && !subnav.hidden ? subnav.offsetHeight : 0) + 8;
+        const y = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: Math.max(0, y), behavior: smooth && !changed && !reduceMotion ? 'smooth' : 'auto' });
+      }
+    };
+
+    if (subnav) {
+      subnav.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-goto]');
+        if (b) navigate(b.dataset.goto);
+      });
+    }
+
+    const enable = () => {
+      root.classList.add('m-pages');
+      go(location.hash.slice(1));
+    };
+    const disable = () => {
+      root.classList.remove('m-pages');
+      sections.forEach((s) => s.classList.remove('is-page-active', 'is-sub-hidden'));
+      subs.forEach((s) => s.classList.remove('is-sub-active'));
+      if (subnav) subnav.hidden = true;
+      delete root.dataset.page;
+      current = null;
+    };
+
+    // links internos
+    document.addEventListener('click', (e) => {
+      if (!root.classList.contains('m-pages')) return;
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const id = a.getAttribute('href').slice(1);
+      const target = id && document.getElementById(id);
+      if (!target || !pageOf(target)) return;
+      e.preventDefault();
+      navigate(id);
+    });
+    window.addEventListener('popstate', () => { if (root.classList.contains('m-pages')) go(location.hash.slice(1)); });
+
+    const apply = () => (mq.matches ? enable() : disable());
+    mq.addEventListener('change', apply);
+    apply();
   }
 
   /* ---------- Barra de ações do celular ---------- */
@@ -493,7 +613,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    [initFeatures, initMobileBar, initHeader, initMenu, initActiveNav, initStagger, initReveal, initStats, initProgress, initHeroFx,
+    [initFeatures, initPages, initMobileBar, initHeader, initMenu, initActiveNav, initStagger, initReveal, initStats, initProgress, initHeroFx,
       initTilt, initRipple, initStatus, initTodayHours,
       initSchedule, initBilling, initJoinLinks, initForm, initYear]
       .forEach((fn) => { try { fn(); } catch (err) { console.error(`[DNA FORTE] ${fn.name}`, err); } });
