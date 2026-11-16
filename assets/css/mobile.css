@@ -180,11 +180,30 @@
   .gallery__item--big { grid-column: auto; grid-row: auto; }
   .team { grid-auto-columns: 62%; }
 
-  /* Faixa amarela: botões empilhados, largura total (o texto nunca é cortado) */
-  .banner__ctas { flex-direction: column; width: 100%; }
-  .banner__ctas .btn { width: 100%; flex: none; }
-  /* Segurança: em botões estreitos, o texto quebra em vez de ser cortado */
-  .btn { white-space: normal; text-align: center; line-height: 1.2; padding-block: 10px; }
+  /* ---------- Botões no celular ----------
+     Fonte um pouco condensada + menos espaçamento entre letras para caber em uma linha;
+     se ainda assim faltar espaço, o texto quebra de forma equilibrada (nunca é cortado). */
+  .btn {
+    font-stretch: 86%;
+    letter-spacing: .03em;
+    gap: 8px;
+    min-height: 50px;
+    padding: 8px 18px;
+    white-space: normal;
+    text-align: center;
+    text-wrap: balance;
+    line-height: 1.15;
+  }
+  .btn--lg { min-height: 54px; font-size: 15px; }
+  .btn__icon { width: 18px; height: 18px; }
+
+  /* Grupos de ações: empilhados e com largura total (alvos grandes para o polegar) */
+  .banner__ctas, .quiz__ctas, .stage__win-ctas, .visit__ctas, .reviews__ctas {
+    display: flex; flex-direction: column; align-items: stretch; width: 100%; gap: 10px;
+  }
+  .banner__ctas .btn, .quiz__ctas .btn, .stage__win-ctas .btn, .visit__ctas .btn, .reviews__ctas .btn,
+  .faq__intro .btn, .steps .btn, .form-success .btn, .hero__ctas .btn { width: 100%; flex: none; }
+  .faq__intro { justify-items: stretch; }
 
   .stage__char { max-width: 280px; }
   .about__media img { aspect-ratio: 16 / 10; }
